@@ -1,4 +1,4 @@
-"use strict";
+//"use strict";
 
 const Sequelize = require('sequelize');
 const sequelize = require('./model');
@@ -17,14 +17,15 @@ module.exports = function() {
       timestamps: false
   });
 
-  User.associate = function(models) {
+  User.findOneById = function(userId) {
     //User.hasMany(models.Task);
-    console.log("Hello World");
+    //console.log("ID find");
 
-    User.findOne({ where: {} }).then(project => {
-      console.log(project);
-      // project will be the first entry of the Projects table with the title 'aProject' || null
-    })
+    return User.findOne({
+      where: {
+        userId: userId
+      }
+    });
   };
 
   return User;
