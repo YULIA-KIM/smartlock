@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+
 const sequelize = new Sequelize(
   'board', // 데이터베이스 이름
   'test1', // 유저명
@@ -7,7 +8,9 @@ const sequelize = new Sequelize(
     'host': '211.253.9.163', // 데이터베이스 호스트
     'dialect': 'mysql' // 사용할 데이터베이스 종류
   }
-)
+);
+
+module.exports = sequelize;
 
 //관계정의-table 생성
 // const name = sequelize.define('table', {
