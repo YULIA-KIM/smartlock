@@ -9,18 +9,21 @@ exports.login = function (req, res) {
     // console.log('login api is working');
     let userId = req.body.id;
     let userPw = req.body.password;
-    let hashedUserPw = crypto.createHash('sha256').update(userPw).digest('base64');
+    let encryptedUserPw = crypto.createHash('sha256').update(userPw).digest('base64');
 
-    // console.log('hashed: ' , hashedUserPw);
+    // console.log('hashed: ' , encryptedUserPw);
 
-    const verifyUser = function (userId, userPw) {
+    const verifyUser = function (userId, encryptedUserPw) {
         // console.log("Id and Pw is checked");
-        User.searchingForIdPw(userId, userPw).then(function (result) {
+        User.searchingForIdPw(userId, encryptedUserPw).then(function (result) {
             if (result) {
                 const token = jwt.sign(
                     {
-                        userID: userId,
-                        userPw: hashedUserPw
+                        userId: result.userId,
+                        userPw: result.userPw,
+                        name: result.name,
+                        phoneNumber: result.phoneNumber,
+                        email: result.email
                     },
                     SECRET,
                     {
@@ -28,8 +31,8 @@ exports.login = function (req, res) {
                         issuer: 'www.smartlock.com',
                         subject: 'userInfo'
                     });
-                console.log(token);
-                res.status(200).json({ isOK: true });
+                // console.log(token);
+                res.status(200).json({ isOK: true, token: token });
             }
             else {
                 console.log("Not found id");
@@ -39,7 +42,7 @@ exports.login = function (req, res) {
             res.status(404).json({ error: 'Not found' });
         });
     };
-    verifyUser(userId, userPw);
+    verifyUser(userId, encryptedUserPw);
 };
 
 
@@ -54,9 +57,7 @@ exports.signUp=(req, res)=>{
       if (user) {
         throw new Error('user exists');
       } else {
-        const encryptedUserPw = crypto.createHash('sha256')
-                        .update(userPw)
-                        .digest('base64');
+        const encryptedUserPw = crypto.createHash('sha256').update(userPw).digest('base64');
   
         return User.create({
           userId: userId,

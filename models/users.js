@@ -9,7 +9,7 @@ module.exports = function () {
       type: Sequelize.STRING(20),
       primaryKey: true,
     },
-    userPw: Sequelize.STRING(20),
+    userPw: Sequelize.STRING(100),
     name: Sequelize.STRING(20),
     phoneNumber: Sequelize.STRING(20),
     email: Sequelize.STRING(50)
@@ -28,9 +28,10 @@ module.exports = function () {
     });
   };
 
-  User.searchingForIdPw = function(userId, userPw) {
+  User.searchingForIdPw = function(userId, encryptedUserPw) {
+    // console.log("id: "+userId, "pw: "+hashedUserPw);
     return User.findOne({
-      where: { userId: userId, userPw: userPw }
+      where: { userId: userId, userPw: encryptedUserPw }
     });
   }
 
