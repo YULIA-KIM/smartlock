@@ -93,7 +93,7 @@ exports.signUp = (req, res) => {
           text: '스마트락 회원가입 확인 메일입니다.\n' // plain text body
             + '\n'
             + '회원가입을 완료하기 위해 다음 링크로 접속하세요.\n'
-            + 'http://localhost:3000/users/email_verify?code=' + token
+            + 'http://localhost:3000/#!/email_verify?code=' + token
           //html: '<b>Hello world?</b>' // html body
       }).then(() => {
         return user;
