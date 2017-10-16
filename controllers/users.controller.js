@@ -67,7 +67,8 @@ exports.signUp = (req, res) => {
           userPw: encryptedUserPw,
           name: name,
           phoneNumber: phoneNumber,
-          email: email
+          email: email,
+          email_verify: 0
         });
       }
     };
