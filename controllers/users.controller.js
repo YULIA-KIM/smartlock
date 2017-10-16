@@ -128,3 +128,41 @@ exports.signUp = (req, res) => {
       .then(respond)
       .catch(onError);
   };
+
+exports.emailVerify = (req, res) => {
+
+  const checkCode = async () => {
+    const secret = await machineid();
+    return jwt.verify(req.query.code, secret);
+  }
+
+  const updateUser = (decodedJwt) => {
+    return User.update({
+      email_verify: 1
+    }, {
+      where: {
+        userId: decodedJwt.userId
+      }
+    });
+  }
+
+  const respond = () => {
+    res.json({
+      success: 1
+    });
+  }
+
+  const onError = (error) => {
+    console.error(error);
+
+    res.status(409).json({
+      message: error.message
+    });
+  }
+
+  new Promise((resolve, reject) => resolve())
+      .then(checkCode)
+      .then(updateUser)
+      .then(respond)
+      .catch(onError)
+}
