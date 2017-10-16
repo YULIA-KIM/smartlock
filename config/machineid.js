@@ -10,4 +10,6 @@ Function: machineIdSync(original);
 
 // MachineId 를 가져옵니다.
 // 예시: c24b0fe51856497eebb6a2bfcd120247aac0d6334d670bb92e09a00ce8169365
-module.exports = nodeMachineId.machineId();
+module.exports = () => {
+  return nodeMachineId.machineId();
+}
