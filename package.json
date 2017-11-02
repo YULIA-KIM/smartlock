@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "babel-node ./src/bin/www --presets es2015,stage-2",
-    "build": "babel src -d build"    
+    "build": "babel src -d build",
+    "deploy": "node ./deploy/run"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
@@ -21,6 +22,7 @@
     "nodemailer": "^4.2.0",
     "sequelize": "^4.11.3",
     "serve-favicon": "~2.4.2",
+    "simple-ssh": "^1.0.0",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
