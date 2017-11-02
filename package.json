@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "babel-node ./src/bin/www --presets es2015,stage-2",
+    "build": "babel src -d build"    
   },
   "dependencies": {
     "body-parser": "~1.17.1",
@@ -12,7 +13,7 @@
     "debug": "~2.6.3",
     "ejs": "~2.5.6",
     "express": "^4.15.5",
-    "jsonwebtoken": "^8.0.1",
+    "jsonwebtoken": "^8.1.0",
     "morgan": "~1.8.1",
     "mysql": "^2.14.1",
     "mysql2": "^1.4.2",
@@ -21,5 +22,10 @@
     "sequelize": "^4.11.3",
     "serve-favicon": "~2.4.2",
     "uuid": "^3.1.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1"
   }
 }
