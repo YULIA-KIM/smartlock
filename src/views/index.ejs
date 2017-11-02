@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+    crossorigin="anonymous">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+  <title>회원가입</title>
+  <style media="screen">
+    @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+    @import url(//fonts.googleapis.com/earlyaccess/jejugothic.css);
+    @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+    @import url('https://fonts.googleapis.com/css?family=Amatic+SC|Baloo+Tammudu|Delius+Unicase|Griffy|Lobster|Pacifico');
+    #header {
+      font-family: 'Amatic SC', cursive;
+      height: 70px;
+      background: #fff;
+      padding-top: 20px;
+      font-size: 25px;
+      font-weight: bold;
+      letter-spacing: 10px;
+    }
+
+    #signup {
+      font-family: 'Noto Sans KR', sans-serif;
+      line-height: 1.3em;
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translate(-50%);
+    }
+  </style>
+</head>
+
+<body>
+  <section>
+    <div id="header" style="">
+      <h2 style="text-align:center; font-weight:bold"><img style="margin-left:0px" src="https://image.flaticon.com/icons/svg/540/540209.svg" width="40px" height="40px">        SCRAMBLE </h2>
+    </div>
+    <article id="signup">
+      <div>
+        <input type="email" class="form-control" style="font-size:18px; width:350px; height:60px" name="userId" id="userId" placeholder="Please enter your e-mail."
+        /></br>
+        <input type="password" class="form-control" style="font-size:18px; width:350px; height:60px" name="password" id="password"
+          onblur="check()" placeholder="Please enter your password." /></br>
+        <input type="password" class="form-control" style="font-size:18px; width:350px; height:60px" onkeyup="check()" id="passwordCheck"
+          placeholder="Please enter the password again." /></br>
+        <p id="CheckText" style="color:red; height:50"></p>
+        </br><br/>
+        <input type="submit" style="font-size:18px; width:350px; height:60px" class="btn btn-warning" disabled="disabled" id="signup_submit"
+          value="SIGNUP" />
+      </div><br/><br/>
+
+    </article>
+
+    <script>
+      function check() {
+        var id = $("#userId").val();
+        var password = $("#password").val();
+        var passwordCheck = $("#passwordCheck").val();
+
+        if (password != passwordCheck) {
+          $("#CheckText").html("비밀번호 불일치")
+          $('#signup_submit').attr("disabled", 'disabled');
+        } else {
+          $('#CheckText').html("<font color=blue>비밀번호 일치</font>")
+          $('#signup_submit').removeAttr("disabled");
+        }
+      }
+
+
+      $('#signup_submit').click(function () {
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{1,}))$/;
+        var id = $("#userId").val();
+
+        if ($('#userId').val() == '' || $('#password').val() == '' || $('#passwordCheck').val() == '') {
+          alert('아이디 또는 비밀번호를 입력하세요.');
+        } else if (id == '' || (re.test(id) == false)) {
+          alert("올바른 이메일 주소를 입력하세요");
+        } else {
+          $.ajax({
+            url: '/users/signUp',
+            dataType: 'json',
+            type: 'post',
+            data: {
+              'userId': $('#userId').val(),
+              'password': $('#password').val()
+            },
+            success: function (res) {
+              if (res['isOK'] == true) {
+                alert('회원가입이 완료되었습니다.');
+                window.close();
+              } else {
+                alert('아이디가 중복되었습니다. 다른아이디를 입력해주세요');
+              }
+            },
+            error: function (error) {
+              alert("Error!");
+            }
+          })
+        }
+      })
+    </script>
+  </section>
+
+</body>
+
+</html>
