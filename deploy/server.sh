@@ -1,3 +1,5 @@
+#!/bin/sh
+pkill npm
 git pull origin master
 npm install
-PORT=80 npm start
+PORT=8080 npm start &
